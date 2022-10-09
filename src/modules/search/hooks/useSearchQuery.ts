@@ -24,12 +24,12 @@ const parseKey = (key: string): Params => {
 };
 
 export const useSearchQuery = (search: string) => {
-  const getAllRestaurants = useSearchByAddress();
+  const searchByAddress = useSearchByAddress();
 
   const { data, isValidating, error } = useSWR(
     getKey(search),
     async (key: string) => {
-      return getAllRestaurants(parseKey(key));
+      return searchByAddress(parseKey(key));
     }
   );
 

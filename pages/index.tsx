@@ -1,7 +1,12 @@
 import { NextPage } from "next";
 
-import SearchPage from "./search";
+import { SearchLayout } from "~/layouts/SearchLayout";
+import { SearchPage } from "~/modules/search/containers/SearchPage";
 
-const Home: NextPage = () => <SearchPage />;
+const Home: NextPage = () => (
+  <SearchLayout>
+    <SearchPage />
+  </SearchLayout>
+);
 
 export default Home;

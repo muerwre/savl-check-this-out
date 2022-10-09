@@ -8,6 +8,7 @@ interface Params {
 
 export const useSearchByAddress = () => {
   return useCallback(async ({ search }: Params): Promise<SearchNFTItem[]> => {
+    throw new Error("not implemented");
     return [];
   }, []);
 };

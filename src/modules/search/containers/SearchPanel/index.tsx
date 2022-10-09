@@ -1,6 +1,14 @@
-import { ChangeEvent, FC, FormEvent, useCallback, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  MouseEvent,
+  useCallback,
+  useState,
+} from "react";
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { Button } from "~/common/ui/Button";
 import { Container } from "~/common/ui/Container";
@@ -14,19 +22,32 @@ interface SearchPanelProps {}
 
 const SearchPanel: FC<SearchPanelProps> = () => {
   const { t } = useI18n();
-  const [value, setValue] = useState("");
-  const { setSearch } = useSearch();
+  const { search, setSearch } = useSearch();
+  const [value, setValue] = useState(search);
+  const { push, replace } = useRouter();
 
   const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setValue(e.target.value.trim());
   }, []);
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setSearch(value);
+      push(`/${value}`);
     },
-    [setSearch, value]
+    [setSearch, value, push]
+  );
+
+  const onClear = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+
+      setValue("");
+      setSearch("");
+      replace("/");
+    },
+    [setSearch, replace]
   );
 
   return (
@@ -51,12 +72,18 @@ const SearchPanel: FC<SearchPanelProps> = () => {
             }
             suffix={
               value && (
-                <Image
-                  src="/assets/svg/close.svg"
-                  width={20}
-                  height={20}
-                  alt=""
-                />
+                <button
+                  className={styles.clear}
+                  type="button"
+                  onClick={onClear}
+                >
+                  <Image
+                    src="/assets/svg/close.svg"
+                    width={20}
+                    height={20}
+                    alt=""
+                  />
+                </button>
               )
             }
             value={value}

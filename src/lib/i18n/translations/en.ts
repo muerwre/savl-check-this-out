@@ -5,6 +5,8 @@ const en = {
   byAddress: "by address",
   searchByAddress: "Search by address",
   search: "Search",
+  notFound: "No results were found",
+  changeSearchQuery: "Change search query and try again",
 };
 
 export default en;

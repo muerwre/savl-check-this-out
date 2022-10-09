@@ -1,18 +1,12 @@
 import { FC } from "react";
 
-import { useSearch } from "~/modules/search/context/SearchProvider";
-import { useSearchQuery } from "~/modules/search/hooks/useSearchQuery";
+import { SearchNFTItem } from "~/model/SearchNFTItem";
 
-interface SearchResultsProps {}
+interface SearchResultsProps {
+  items: SearchNFTItem[];
+}
 
-const SearchResults: FC<SearchResultsProps> = () => {
-  const { search } = useSearch();
-  const { items, error, isLoading } = useSearchQuery(search);
-
-  if (isLoading) {
-    // TODO: draw loader here
-  }
-
+const SearchResults: FC<SearchResultsProps> = ({ items }) => {
   return (
     <div>
       {items.map((it) => (

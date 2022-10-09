@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 
 import { APIProvider } from "~/api/rest";
-import { SearchLayout } from "~/layouts/SearchLayout";
+import { MainLayout } from "~/layouts/MainLayout";
 
 import "../styles/globals.scss";
 
@@ -16,9 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
 
-      <SearchLayout>
+      <MainLayout>
         <Component {...pageProps} />
-      </SearchLayout>
+      </MainLayout>
     </APIProvider>
   );
 }
