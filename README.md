@@ -1,4 +1,4 @@
-This is test application for SAVL GmbH.
+This is test application for [SAVL GmbH](https://www.savl.com/).
 
 # Running
 
