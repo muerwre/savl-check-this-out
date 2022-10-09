@@ -13,7 +13,10 @@ const SearchAddressPage: NextPage<Props> = ({ fallbackData }) => {
   const router = useRouter();
   const { address } = router.query;
 
-  const search = typeof address === "string" ? address : undefined;
+  const search =
+    Array.isArray(address) && typeof address[0] === "string"
+      ? address[0]
+      : undefined;
 
   return (
     <SearchLayout search={search}>
@@ -28,10 +31,10 @@ export const getStaticProps: GetStaticProps<
   {
     fallbackData: SearchNFTItem[];
   },
-  { address: string }
+  { address: string[] }
 > = async ({ params }) => {
-  const fallbackData: SearchNFTItem[] = params?.address?.trim()
-    ? await searchByAddressForSSR(params.address.trim()).catch(() => [])
+  const fallbackData: SearchNFTItem[] = params?.address[0]?.trim()
+    ? await searchByAddressForSSR(params.address[0].trim()).catch(() => [])
     : [];
 
   return {

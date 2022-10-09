@@ -33,6 +33,10 @@ const SearchPanel: FC<SearchPanelProps> = () => {
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      if (value === search) {
+        return;
+      }
+
       setSearch(value);
 
       // push URL to history, but don't reload page
