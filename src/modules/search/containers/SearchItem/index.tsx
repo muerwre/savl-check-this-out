@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 
+import { useVisibilityDetector } from "~/common/hooks/useVisibilityDetector";
 import { useI18n } from "~/lib/i18n";
 import { SearchNFTItem } from "~/model/SearchNFTItem";
 
@@ -16,6 +17,13 @@ interface SearchItemProps {
 }
 
 const SearchItem: FC<SearchItemProps> = ({ item }) => {
+  const [hasBeenLoaded, setHasBeenLoaded] = useState(false);
+  const [ref, setRef] = useState<HTMLDivElement | null>(null);
+
+  // intersection observer will detect if element is visible
+  // to avoid unnecessary api calls
+  const isVisible = useVisibilityDetector(ref);
+
   const { t } = useI18n();
   const { search } = useSearch();
 
@@ -23,17 +31,22 @@ const SearchItem: FC<SearchItemProps> = ({ item }) => {
     address: item.address,
     uri: item.uri,
     owner: search,
+    skip: !isVisible && !hasBeenLoaded,
   });
+
+  useEffect(() => {
+    setHasBeenLoaded(!!data?.name);
+  }, [data]);
 
   if (isLoading) {
     return <SearchLoader />;
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={setRef}>
       <div className={styles.result}>
         <div className={styles.image}>
-          {data?.image && (
+          {isVisible && data?.image && (
             <Image
               src={data.image}
               layout="fill"

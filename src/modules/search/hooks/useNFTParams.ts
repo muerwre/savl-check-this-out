@@ -6,9 +6,14 @@ interface Params {
   address: string;
   uri: string;
   owner: string;
+  skip: boolean;
 }
 
 const getKey: (params: Params) => KeyLoader = (params) => () => {
+  if (params.skip) {
+    return null;
+  }
+
   return JSON.stringify(params);
 };
 
@@ -16,7 +21,7 @@ const parseKey = (key: string): Params => {
   try {
     return JSON.parse(key);
   } catch (error) {
-    return { address: "", uri: "", owner: "" };
+    return { address: "", uri: "", owner: "", skip: false };
   }
 };
 
