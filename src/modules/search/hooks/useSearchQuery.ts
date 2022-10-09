@@ -4,6 +4,7 @@ import { has } from "lodash";
 import useSWR, { KeyLoader } from "swr";
 
 import { useSearchByAddressQuery } from "~/api/rest/search/useSearchByAddressQuery";
+import { SearchNFTItem } from "~/model/SearchNFTItem";
 
 type Params = { search?: string };
 
@@ -23,13 +24,20 @@ const parseKey = (key: string): Params => {
   }
 };
 
-export const useSearchQuery = (search: string) => {
+export const useSearchQuery = (
+  search: string,
+  fallbackData?: SearchNFTItem[]
+) => {
   const searchByAddress = useSearchByAddressQuery();
 
   const { data, isValidating, error } = useSWR(
     getKey(search),
     async (key: string) => {
       return searchByAddress(parseKey(key));
+    },
+    {
+      fallbackData,
+      revalidateOnMount: false, // trust in SSR :-)
     }
   );
 

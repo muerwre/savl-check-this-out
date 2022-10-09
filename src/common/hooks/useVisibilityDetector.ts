@@ -1,22 +1,21 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useVisibilityDetector = (
-  ref: HTMLElement | null,
-  threshold = 0.2
-) => {
+export const useVisibilityDetector = (ref: HTMLElement | null) => {
   const [isIntersecting, setIntersecting] = useState(false);
 
-  const observer = useMemo(
-    () =>
-      new IntersectionObserver(
-        ([entry]) => setIntersecting(entry.isIntersecting),
-        { threshold }
-      ),
-    [threshold]
-  );
+  const [observer, setObserver] = useState<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    if (!ref) {
+    setObserver(
+      new IntersectionObserver(
+        ([entry]) => setIntersecting(entry.isIntersecting),
+        { rootMargin: "400px" }
+      )
+    );
+  }, []);
+
+  useEffect(() => {
+    if (!ref || !observer) {
       return;
     }
 
@@ -27,5 +26,5 @@ export const useVisibilityDetector = (
     };
   }, [observer, ref]);
 
-  return isIntersecting;
+  return observer && isIntersecting;
 };

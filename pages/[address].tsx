@@ -1,18 +1,15 @@
-import { InferGetServerSidePropsType, NextPage } from "next";
+import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { useRouter } from "next/router";
 
+import { searchByAddressForSSR } from "~/api/rest/search/useSearchByAddressQuery";
 import { SearchLayout } from "~/layouts/SearchLayout";
+import { SearchNFTItem } from "~/model/SearchNFTItem";
 import { SearchPage } from "~/modules/search/containers/SearchPage";
 
-export const getServerSideProps = async () => {
-  return {
-    props: {},
-  };
-};
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+const ONE_HOUR = 60 * 60;
 
-type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
-
-const SearchAddressPage: NextPage<Props> = ({}, {}) => {
+const SearchAddressPage: NextPage<Props> = ({ fallbackData }) => {
   const router = useRouter();
   const { address } = router.query;
 
@@ -20,9 +17,34 @@ const SearchAddressPage: NextPage<Props> = ({}, {}) => {
 
   return (
     <SearchLayout search={search}>
-      <SearchPage />
+      <SearchPage fallbackData={fallbackData} />
     </SearchLayout>
   );
 };
 
 export default SearchAddressPage;
+
+export const getStaticProps: GetStaticProps<
+  {
+    fallbackData: SearchNFTItem[];
+  },
+  { address: string }
+> = async ({ params }) => {
+  const fallbackData: SearchNFTItem[] = params?.address?.trim()
+    ? await searchByAddressForSSR(params.address.trim()).catch(() => [])
+    : [];
+
+  return {
+    props: {
+      fallbackData,
+    },
+    revalidate: ONE_HOUR,
+  };
+};
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+};
