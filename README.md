@@ -2,8 +2,6 @@ This is test application for SAVL GmbH.
 
 # Running
 
-Check settings at `/.env` first, then run:
-
 ```shell
 yarn
 yarn dev
