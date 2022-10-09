@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 
-import { flatten } from "lodash";
+import { has } from "lodash";
 import useSWR, { KeyLoader } from "swr";
 
-import { useSearchByAddress } from "~/api/rest/search/useSearchByAddress";
+import { useSearchByAddressQuery } from "~/api/rest/search/useSearchByAddressQuery";
 
 type Params = { search?: string };
 
@@ -24,7 +24,7 @@ const parseKey = (key: string): Params => {
 };
 
 export const useSearchQuery = (search: string) => {
-  const searchByAddress = useSearchByAddress();
+  const searchByAddress = useSearchByAddressQuery();
 
   const { data, isValidating, error } = useSWR(
     getKey(search),
@@ -34,7 +34,10 @@ export const useSearchQuery = (search: string) => {
   );
 
   const isLoading = !data && isValidating;
-  const items = useMemo(() => flatten(data || []), [data]);
+  const items = useMemo(
+    () => data?.filter((it) => has(it, ["address"]) && has(it, ["uri"])) || [],
+    [data]
+  );
 
   return {
     items,

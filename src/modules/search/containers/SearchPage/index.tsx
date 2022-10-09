@@ -3,17 +3,29 @@ import { FC } from "react";
 import Head from "next/head";
 
 import NotFoundPage from "pages/404";
-import { SearchLayout } from "~/layouts/SearchLayout";
+import { Loader } from "~/common/ui/Loader";
 import { useI18n } from "~/lib/i18n";
 import { useSearch } from "~/modules/search/context/SearchProvider";
 import { useSearchQuery } from "~/modules/search/hooks/useSearchQuery";
+
+import { SearchResults } from "../SearchResults";
+
+import styles from "./styles.module.scss";
 
 const SearchPage: FC = () => {
   const { t } = useI18n();
   const { search } = useSearch();
   const { items, error, isLoading } = useSearchQuery(search);
 
-  if (search && error) {
+  if (search && isLoading) {
+    return (
+      <div className={styles.loader}>
+        <Loader />
+      </div>
+    );
+  }
+
+  if (search && (error || items.length === 0)) {
     return <NotFoundPage />;
   }
 
@@ -23,6 +35,8 @@ const SearchPage: FC = () => {
         <title>{t("defaultPageTitle")}</title>
         <meta name="description" content={t("defaultPageDescription")} />
       </Head>
+
+      <SearchResults items={items} />
     </div>
   );
 };

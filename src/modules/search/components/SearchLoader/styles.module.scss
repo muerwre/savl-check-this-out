@@ -1,0 +1,16 @@
+.wrapper {
+  padding: 2px;
+  background: var(--card-border);
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  box-sizing: border-box;
+}
+
+.container {
+  background: var(--background);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

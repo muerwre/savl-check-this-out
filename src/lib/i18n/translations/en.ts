@@ -7,6 +7,8 @@ const en = {
   search: "Search",
   notFound: "No results were found",
   changeSearchQuery: "Change search query and try again",
+  loading: "Loading...",
+  showMore: "Show more",
 };
 
 export default en;
