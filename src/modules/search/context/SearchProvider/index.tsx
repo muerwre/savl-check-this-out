@@ -3,6 +3,7 @@ import React, {
   FC,
   PropsWithChildren,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -20,6 +21,15 @@ const SearchProvider: FC<SearchProviderProps> = ({
   initialValue,
 }) => {
   const [search, setSearch] = useState(initialValue || "");
+
+  /** watch SSR url change and update search value for it */
+  useEffect(() => {
+    if (!initialValue || initialValue === search) {
+      return;
+    }
+
+    setSearch(initialValue);
+  }, [initialValue]);
 
   return (
     <SearchContext.Provider value={{ search, setSearch }}>

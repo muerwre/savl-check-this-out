@@ -4,6 +4,7 @@ import {
   FormEvent,
   MouseEvent,
   useCallback,
+  useEffect,
   useState,
 } from "react";
 
@@ -40,9 +41,9 @@ const SearchPanel: FC<SearchPanelProps> = () => {
       setSearch(value);
 
       // push URL to history, but don't reload page
-      push("/[address]", `/${value}`, { scroll: false });
+      push("/[...address]", `/${value}`, { scroll: false, shallow: true });
     },
-    [setSearch, value, push]
+    [value, search, setSearch, push]
   );
 
   const onClear = useCallback(
@@ -57,6 +58,15 @@ const SearchPanel: FC<SearchPanelProps> = () => {
     },
     [setSearch, replace]
   );
+
+  /** watch SSR url change and update search value for it */
+  useEffect(() => {
+    if (value === search) {
+      return;
+    }
+
+    setValue(search);
+  }, [search]);
 
   return (
     <section>
