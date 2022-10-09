@@ -1,3 +1,31 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "alphabetize": { "order": "asc" },
+        "newlines-between": "always",
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "unknown"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "before"
+          },
+          { "pattern": "~/**", "group": "internal" },
+          { "pattern": "./**", "group": "sibling" }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"]
+      }
+    ]
+  }
 }

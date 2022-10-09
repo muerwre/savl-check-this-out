@@ -1,0 +1,13 @@
+@import "variables";
+
+:root {
+  --content-width: #{$content-width};
+  --search-panel-width: #{$search-panel-width};
+
+  --header-height: 74px;
+  --input-md: 32px;
+  --input-md-radius: 2px;
+
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+}

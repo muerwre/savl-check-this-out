@@ -1,0 +1,26 @@
+.button {
+  border: none;
+  font-weight: 450;
+  cursor: pointer;
+
+  &:focus {
+    outline: 2px solid var(--primary);
+  }
+}
+
+.color {
+  &-primary {
+    background-color: var(--primary);
+    color: var(--text-contrast);
+  }
+}
+
+.size {
+  &-md {
+    height: var(--input-md);
+    border-radius: var(--input-md-radius);
+    font-size: rem(14px);
+    line-height: rem(20px);
+    padding: 0 18px;
+  }
+}

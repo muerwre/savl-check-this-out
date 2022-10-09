@@ -1,0 +1,18 @@
+.highlight {
+  color: var(--primary);
+}
+
+.title {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.form_container {
+  max-width: var(--search-panel-width);
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 20px;
+}
