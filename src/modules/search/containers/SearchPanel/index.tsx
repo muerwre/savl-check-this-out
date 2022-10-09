@@ -34,7 +34,9 @@ const SearchPanel: FC<SearchPanelProps> = () => {
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setSearch(value);
-      push(`/${value}`);
+
+      // push URL to history, but don't reload page
+      push("/[address]", `/${value}`, { shallow: true, scroll: false });
     },
     [setSearch, value, push]
   );
@@ -45,7 +47,9 @@ const SearchPanel: FC<SearchPanelProps> = () => {
 
       setValue("");
       setSearch("");
-      replace("/");
+
+      // replace URL in history, but don't reload page
+      replace(`/`, "/", { shallow: true, scroll: false });
     },
     [setSearch, replace]
   );

@@ -3,31 +3,30 @@ import { FC } from "react";
 import Head from "next/head";
 
 import NotFoundPage from "pages/404";
-import { Loader } from "~/common/ui/Loader";
 import { useI18n } from "~/lib/i18n";
 import { SearchNFTItem } from "~/model/SearchNFTItem";
 import { useSearch } from "~/modules/search/context/SearchProvider";
 import { useSearchQuery } from "~/modules/search/hooks/useSearchQuery";
 
-import { SearchResults } from "../SearchResults";
-
-import styles from "./styles.module.scss";
+import { SearchLoader } from "../../components/SearchLoader";
+import { SearchResults } from "../../components/SearchResults";
 
 interface SearchPageProps {
+  search?: string;
   fallbackData?: SearchNFTItem[];
 }
 
-const SearchPage: FC<SearchPageProps> = ({ fallbackData }) => {
+const SearchPage: FC<SearchPageProps> = ({ fallbackData, search: initial }) => {
   const { t } = useI18n();
   const { search } = useSearch();
-  const { items, error, isLoading } = useSearchQuery(search, fallbackData);
+  const { items, error, isLoading } = useSearchQuery(
+    search,
+    // fallbackData should be valid for initial search query only
+    search === initial ? fallbackData : undefined
+  );
 
   if (search && isLoading) {
-    return (
-      <div className={styles.loader}>
-        <Loader />
-      </div>
-    );
+    return <SearchLoader />;
   }
 
   if (search && (error || items.length === 0)) {

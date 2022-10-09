@@ -6,7 +6,7 @@ import { useVisibilityDetector } from "~/common/hooks/useVisibilityDetector";
 import { useI18n } from "~/lib/i18n";
 import { SearchNFTItem } from "~/model/SearchNFTItem";
 
-import { SearchLoader } from "../../components/SearchLoader";
+import { SearchItemLoader } from "../../components/SearchItemLoader";
 import { useSearch } from "../../context/SearchProvider";
 import { useNFTParams } from "../../hooks/useNFTParams";
 
@@ -39,7 +39,7 @@ const SearchItem: FC<SearchItemProps> = ({ item }) => {
   }, [data]);
 
   if (isLoading) {
-    return <SearchLoader />;
+    return <SearchItemLoader />;
   }
 
   return (

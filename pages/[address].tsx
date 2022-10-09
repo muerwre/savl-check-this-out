@@ -17,7 +17,7 @@ const SearchAddressPage: NextPage<Props> = ({ fallbackData }) => {
 
   return (
     <SearchLayout search={search}>
-      <SearchPage fallbackData={fallbackData} />
+      <SearchPage fallbackData={fallbackData} search={search} />
     </SearchLayout>
   );
 };

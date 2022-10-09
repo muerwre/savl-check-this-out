@@ -2,7 +2,8 @@ import { FC } from "react";
 
 import { SearchNFTItem } from "~/model/SearchNFTItem";
 
-import { SearchItem } from "../SearchItem";
+import { SearchItem } from "../../containers/SearchItem";
+import { SearchGrid } from "../SearchGrid";
 
 import styles from "./styles.module.scss";
 
@@ -12,11 +13,11 @@ interface SearchResultsProps {
 
 const SearchResults: FC<SearchResultsProps> = ({ items }) => {
   return (
-    <div className={styles.grid}>
+    <SearchGrid>
       {items.map((it) => (
         <SearchItem item={it} key={it.address} />
       ))}
-    </div>
+    </SearchGrid>
   );
 };
 
