@@ -9,6 +9,8 @@ const en = {
   changeSearchQuery: "Change search query and try again",
   loading: "Loading...",
   showMore: "Show more",
+  waitABit: "Wait a bit...",
+  myCollections: "My Collections",
 };
 
 export default en;

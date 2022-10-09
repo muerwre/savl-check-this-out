@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 
 import Head from "next/head";
 
@@ -19,10 +19,12 @@ interface SearchPageProps {
 const SearchPage: FC<SearchPageProps> = ({ fallbackData, search: initial }) => {
   const { t } = useI18n();
   const { search } = useSearch();
+  const initialSearch = useRef(initial).current;
+
   const { items, error, isLoading } = useSearchQuery(
     search,
     // fallbackData should be valid for initial search query only
-    search === initial ? fallbackData : undefined
+    search === initialSearch ? fallbackData : undefined
   );
 
   if (search && isLoading) {
@@ -36,11 +38,15 @@ const SearchPage: FC<SearchPageProps> = ({ fallbackData, search: initial }) => {
   return (
     <div>
       <Head>
-        <title>{t("defaultPageTitle")}</title>
+        <title>
+          {search
+            ? t("defaultPageTitle") + " | " + search
+            : t("defaultPageTitle")}
+        </title>
         <meta name="description" content={t("defaultPageDescription")} />
       </Head>
 
-      <SearchResults items={items} />
+      {!!search && <SearchResults items={items} />}
     </div>
   );
 };

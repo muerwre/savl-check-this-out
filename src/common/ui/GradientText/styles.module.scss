@@ -1,0 +1,5 @@
+.gradient > * {
+  background: var(--gradient-title);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
