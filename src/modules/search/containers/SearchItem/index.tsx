@@ -28,9 +28,9 @@ const SearchItem: FC<SearchItemProps> = ({ item }) => {
   const { search } = useSearch();
 
   const { data, isLoading } = useNFTParams({
-    address: item.address,
-    uri: item.uri,
-    owner: search,
+    nftAddress: item.address,
+    url: item.uri,
+    holderAddress: search,
     skip: !isVisible && !hasBeenLoaded,
   });
 

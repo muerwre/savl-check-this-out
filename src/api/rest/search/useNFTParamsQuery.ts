@@ -1,28 +1,41 @@
 import { useCallback } from "react";
 
 import { useAPI } from "../APIProvider";
+import { paths } from "../constants";
 
 interface Params {
-  address: string;
-  uri: string;
-  owner: string;
+  nftAddress: string;
+  url: string;
+  holderAddress: string;
 }
 
 interface Result {
-  name: string;
-  image: string;
+  data: {
+    metadata: {
+      name: string;
+      image: string;
+    };
+  };
 }
 
 export const useNFTParamsQuery = () => {
   const client = useAPI();
 
   return useCallback(
-    async ({ address, uri, owner }: Params): Promise<Result> => {
-      if (!address || !uri || !owner) {
+    async ({ nftAddress, url, holderAddress }: Params) => {
+      if (!nftAddress || !url || !holderAddress) {
         throw new Error("specify proper address, uri and owner");
       }
 
-      return client.get<Result>(uri).then((it) => it.data);
+      return client
+        .get<Result>(paths.metadata(), {
+          params: {
+            url,
+            holderAddress,
+            nftAddress,
+          },
+        })
+        .then((it) => it.data.data.metadata);
     },
     [client]
   );

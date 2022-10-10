@@ -3,9 +3,9 @@ import useSWR, { KeyLoader } from "swr";
 import { useNFTParamsQuery } from "~/api/rest/search/useNFTParamsQuery";
 
 interface Params {
-  address: string;
-  uri: string;
-  owner: string;
+  nftAddress: string;
+  url: string;
+  holderAddress: string;
   skip: boolean;
 }
 
@@ -21,7 +21,7 @@ const parseKey = (key: string): Params => {
   try {
     return JSON.parse(key);
   } catch (error) {
-    return { address: "", uri: "", owner: "", skip: false };
+    return { nftAddress: "", url: "", holderAddress: "", skip: false };
   }
 };
 
